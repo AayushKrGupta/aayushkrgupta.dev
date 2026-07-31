@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap");
+@import "tailwindcss";
+
+:root {
+  --background: #090909;
+  --foreground: #ffffff;
+  --muted: #a0a0a0;
+  --accent: #fd2601;
+  --accent-secondary: #f37e1c;
+  --font-display: "Anton", "Bebas Neue", "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--foreground);
+  background:
+    radial-gradient(circle at top left, #fd2601 0%, transparent 40%),
+    radial-gradient(circle at bottom right, #f37e1c 0%, transparent 45%),
+    linear-gradient(180deg, #090909 0%, #111111 100%);
+  background-color: var(--background);
+  font-family: var(--font-body);
+  color-scheme: dark;
+}
+
+::selection {
+  background: white;
+  color: #fd2601;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
