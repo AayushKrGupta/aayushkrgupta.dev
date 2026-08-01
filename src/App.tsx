@@ -1,793 +1,783 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { PointerEvent, ReactNode } from "react";
-import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
-import gsap from "gsap";
-import Lenis from "lenis";
-import {
-  ArrowUpRight,
-  Code2,
-  Download,
-  ExternalLink,
-  Github,
-  Mail,
-  Menu,
-  Sparkles,
-  SquareArrowOutUpRight,
-  Zap,
-} from "lucide-react";
+import type { CSSProperties, PointerEvent as ReactPointerEvent, ReactNode } from "react";
+import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import { ArrowUpRight, Github, Instagram, Linkedin, Mail, Twitter } from "lucide-react";
 
-type Repo = {
-  name: string;
-  html_url: string;
-  homepage: string | null;
-  description: string | null;
-  language: string | null;
-  stargazers_count: number;
-  forks_count: number;
-  topics: string[];
-  updated_at: string;
-};
+const heroBackground =
+  "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260729_022513_486985a2-ac8c-4278-91a8-071dcd9fcaff.png&w=1280&q=85";
+
+const portraitImage = "/aayush_animated.png";
+
+const marqueeImages = [
+  "https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif",
+  "https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif",
+  "https://motionsites.ai/assets/hero-vex-ventures-preview-BczMFIiw.gif",
+  "https://motionsites.ai/assets/hero-stellar-ai-v2-preview-DjvxjG3C.gif",
+  "https://motionsites.ai/assets/hero-asme-preview-B_nGDnTP.gif",
+  "https://motionsites.ai/assets/hero-transform-data-preview-Cx5OU29N.gif",
+  "https://motionsites.ai/assets/hero-vitara-preview-Cjz2QYyU.gif",
+  "https://motionsites.ai/assets/hero-terra-preview-BFjrCr7T.gif",
+  "https://motionsites.ai/assets/hero-skyelite-preview-DHaZIgUv.gif",
+  "https://motionsites.ai/assets/hero-aethera-preview-DknSlcTa.gif",
+  "https://motionsites.ai/assets/hero-designpro-preview-D8c5_een.gif",
+  "https://motionsites.ai/assets/hero-stellar-ai-preview-D3HL6bw1.gif",
+  "https://motionsites.ai/assets/hero-xportfolio-preview-D4A8maiC.gif",
+  "https://motionsites.ai/assets/hero-orbit-web3-preview-BXt4OttD.gif",
+  "https://motionsites.ai/assets/hero-nexora-preview-cx5HmUgo.gif",
+  "https://motionsites.ai/assets/hero-evr-ventures-preview-DZxeVFEX.gif",
+  "https://motionsites.ai/assets/hero-planet-orbit-preview-DWAP8Z1P.gif",
+  "https://motionsites.ai/assets/hero-new-era-preview-CocuDUm9.gif",
+  "https://motionsites.ai/assets/hero-wealth-preview-B70idl_u.gif",
+  "https://motionsites.ai/assets/hero-luminex-preview-CxOP7ce6.gif",
+  "https://motionsites.ai/assets/hero-celestia-preview-0yO3jXO8.gif",
+];
+
+const aboutDecor = [
+  {
+    src: "https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png",
+    className: "top-[4%] left-[1%] sm:left-[2%] md:left-[4%] w-[120px] sm:w-[160px] md:w-[210px]",
+    delay: 0.1,
+    x: -80,
+  },
+  {
+    src: "https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png",
+    className: "top-[4%] right-[1%] sm:right-[2%] md:right-[4%] w-[120px] sm:w-[160px] md:w-[210px]",
+    delay: 0.15,
+    x: 80,
+  },
+  {
+    src: "https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png",
+    className: "bottom-[8%] left-[3%] sm:left-[6%] md:left-[10%] w-[100px] sm:w-[140px] md:w-[180px]",
+    delay: 0.25,
+    x: -80,
+  },
+  {
+    src: "https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png",
+    className: "bottom-[8%] right-[3%] sm:right-[6%] md:right-[10%] w-[130px] sm:w-[170px] md:w-[220px]",
+    delay: 0.3,
+    x: 80,
+  },
+] as const;
+
+const skills = [
+  {
+    number: "01",
+    name: "Android Development",
+    description:
+      "Jetpack Compose, Kotlin, and cross-platform mobile workflows shaped around clean product thinking and fast execution.",
+  },
+  {
+    number: "02",
+    name: "Machine Learning",
+    description:
+      "TensorFlow, Scikit-learn, Pandas, and deep-learning workflows for practical applications and research-driven prototypes.",
+  },
+  {
+    number: "03",
+    name: "Computer Vision",
+    description:
+      "Vision pipelines, OCR-style interactions, image understanding, and perception systems that make software feel intelligent.",
+  },
+  {
+    number: "04",
+    name: "System Design",
+    description:
+      "Telemetry, architecture, and performance-aware product systems built to stay responsive, reliable, and maintainable.",
+  },
+  {
+    number: "05",
+    name: "Full-Stack Development",
+    description:
+      "React, Tailwind, Node.js, Express, REST APIs, MongoDB, Firebase, and MySQL for modern end-to-end product delivery.",
+  },
+] as const;
 
 type ProjectCard = {
+  number: string;
+  category: string;
   name: string;
-  description: string;
-  tags: string[];
-  href: string;
-  accent: string;
+  images: [string, string, string];
 };
 
-type NavItem = {
-  label: string;
-  href: string;
-};
-
-const navigation: NavItem[] = [
-  { label: "HOME", href: "#home" },
-  { label: "PROJECTS", href: "#projects" },
-  { label: "SKILLS", href: "#skills" },
-  { label: "EXPERIENCE", href: "#experience" },
-  { label: "RESUME", href: "https://github.com/AayushKrGupta" },
-  { label: "CONTACT", href: "#contact" },
-];
-
-const rotatingWords = ["MOBILE", "AI", "SYSTEMS", "SIMULATION"];
-
-const specializations = [
-  "Android Development",
-  "Machine Learning",
-  "Computer Vision",
-  "System Design",
-  "Full-Stack Development",
-  "Performance Engineering",
-];
-
-const skillGroups = [
+const projects: ProjectCard[] = [
   {
-    title: "Languages",
-    items: ["C", "C++", "Python", "JavaScript", "SQL", "Kotlin", "TypeScript"],
-  },
-  {
-    title: "Frontend",
-    items: ["React", "Tailwind", "Jetpack Compose", "Expo"],
-  },
-  {
-    title: "Backend",
-    items: ["Node.js", "Express.js", "REST APIs"],
-  },
-  {
-    title: "Databases",
-    items: ["MongoDB", "MySQL", "Firebase", "Room"],
-  },
-  {
-    title: "AI and Machine Learning",
-    items: ["TensorFlow", "OpenCV", "NumPy", "Pandas", "Scikit-learn", "Keras"],
-  },
-];
-
-const achievements = [
-  "IIIT Dharwad student",
-  "Built Sim Gamepad from scratch",
-  "Developed multiple AI projects",
-  "Designed cross-platform applications",
-  "Published open-source projects on GitHub",
-];
-
-const technologies = ["React", "Android", "TensorFlow", "Rust", "Node.js", "MongoDB", "GitHub", "Linux", "Firebase"];
-
-const fallbackProjects: ProjectCard[] = [
-  {
+    number: "01",
+    category: "Mobile / Telemetry",
     name: "Sim Gamepad",
-    description:
-      "Transforming smartphones into precision gaming controllers with real-time telemetry and low-latency UDP communication.",
-    tags: ["React Native", "Rust", "Kotlin", "WPF", "Telemetry"],
-    href: "https://github.com/AayushKrGupta",
-    accent: "from-[#fd2601] via-[#f37e1c] to-white",
+    images: [
+      "/aayush_animated.png",
+      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055431_11d841fd-8b41-46a5-82e4-b04f2407a7d8.png&w=1280&q=85",
+      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055451_e317bf2d-28d4-48cc-86b0-6f72f25b6327.png&w=1280&q=85",
+    ],
   },
   {
+    number: "02",
+    category: "Productivity / Android",
     name: "MindScribe",
-    description: "A modern writing companion built around note capture, sync, and structured organization.",
-    tags: ["Jetpack Compose", "Firebase", "Room", "Retrofit"],
-    href: "https://github.com/AayushKrGupta",
-    accent: "from-white/20 via-[#f37e1c]/50 to-[#fd2601]/70",
+    images: [
+      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055654_911201c5-36d9-4bc6-bac7-331adfce159f.png&w=1280&q=85",
+      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055723_5ceda0b8-d9c2-4665-b2e3-83ba19ba76d1.png&w=1280&q=85",
+      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85",
+    ],
   },
   {
-    name: "Intelligent Perception Assistant",
-    description: "Computer vision and speech-driven assistant for actionable on-device perception.",
-    tags: ["Computer Vision", "Speech Recognition", "NLP"],
-    href: "https://github.com/AayushKrGupta",
-    accent: "from-[#fd2601]/70 via-white/20 to-transparent",
-  },
-  {
+    number: "03",
+    category: "AI / Vision",
     name: "AlzVision AI",
-    description: "A deep learning pipeline for MRI classification and neurologic screening workflows.",
-    tags: ["Vision Transformers", "MRI", "Deep Learning"],
-    href: "https://github.com/AayushKrGupta",
-    accent: "from-[#f37e1c]/60 via-white/20 to-[#090909]",
+    images: [
+      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85",
+      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85",
+      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85",
+    ],
   },
 ];
 
-const roleDescriptions = [
-  "Software developer specializing in mobile applications, AI systems, computer vision, desktop software, telemetry systems, and modern web technologies.",
-  "Building polished products that feel fast, tactile, and technically precise across mobile, desktop, and ML-driven experiences.",
-];
+const aboutText =
+  "Aayush Kumar is a Electronics and Communication Engineering student at IIIT Dharwad, a software developer, AI enthusiast, and creator of mobile, desktop, and machine-learning projects. I enjoy building polished experiences across Android, computer vision, system design, and modern web technologies.";
 
 function App() {
-  const shouldReduceMotion = useReducedMotion();
-  const [wordIndex, setWordIndex] = useState(0);
-  const [projects, setProjects] = useState<ProjectCard[]>(fallbackProjects);
-  const [loadingProjects, setLoadingProjects] = useState(true);
-  const heroRef = useRef<HTMLDivElement>(null);
-  const marqueeRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    document.title = "Aayush Kumar — 3D Creator";
+  }, []);
+
+  return (
+    <main className="overflow-x-clip bg-[#0C0C0C] text-[#D7E2EA]">
+      <HeroSection />
+      <MarqueeSection />
+      <AboutSection />
+      <SkillsSection />
+      <ProjectsSection />
+      <ContactSection />
+    </main>
+  );
+}
+
+function HeroSection() {
+  const reduceMotion = usePrefersReducedMotion();
+
+  return (
+    <section className="relative flex h-screen w-full flex-col justify-between overflow-x-clip bg-[#0C0C0C] px-6 pt-6 pb-7 sm:px-10 sm:pt-8 sm:pb-8 md:pb-10">
+      <FadeIn delay={0} y={-20} className="w-full z-30">
+        <nav className="flex w-full items-center justify-between gap-4 text-[#D7E2EA]">
+          {[
+            ["About", "#about"],
+            ["Skills", "#skills"],
+            ["Projects", "#projects"],
+            ["Contact", "#contact"],
+          ].map(([label, href]) => (
+            <a
+              key={label}
+              href={href}
+              className="text-sm font-medium uppercase tracking-wider transition-opacity duration-200 hover:opacity-70 md:text-lg lg:text-[1.4rem]"
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
+      </FadeIn>
+
+      <div className="w-full flex-1 flex flex-col justify-start">
+        <FadeIn delay={0.15} y={40} className="w-full">
+          <div className="mt-6 sm:mt-4 md:-mt-5 overflow-hidden w-full flex justify-center text-center">
+            <h1 className="hero-heading text-center w-full whitespace-nowrap font-black uppercase leading-none tracking-tight text-[10.5vw] sm:text-[11.5vw] md:text-[12.2vw] lg:text-[13vw]">
+              Hi, i&apos;m Aayush
+            </h1>
+          </div>
+        </FadeIn>
+      </div>
+
+      <motion.div
+        initial={false}
+        className="pointer-events-none absolute left-1/2 -translate-x-1/2 z-10 w-[340px] sm:w-[450px] md:w-[560px] lg:w-[660px] top-1/2 -translate-y-1/2 sm:top-auto sm:translate-y-0 sm:bottom-0"
+        style={{ willChange: "transform" }}
+      >
+        <Magnet padding={150} strength={3} reduceMotion={reduceMotion}>
+          <FadeIn delay={0.6} y={30} className="pointer-events-auto w-full">
+            <img src={portraitImage} alt="Portrait" className="h-full w-full object-cover" />
+          </FadeIn>
+        </Magnet>
+      </motion.div>
+
+      <div className="relative z-20 flex w-full items-end justify-between gap-4">
+        <FadeIn delay={0.35} y={20} className="max-w-[160px] sm:max-w-[220px] md:max-w-[260px]">
+          <p className="text-[clamp(0.75rem,1.4vw,1.5rem)] font-light uppercase leading-snug tracking-wide text-[#D7E2EA]">
+            a software developer driven by crafting striking and unforgettable projects across mobile, desktop, and ai systems
+          </p>
+        </FadeIn>
+
+        <FadeIn delay={0.5} y={20}>
+          <ContactButton href="#contact">Contact Me</ContactButton>
+        </FadeIn>
+      </div>
+
+      <style>{heroAnimations(reduceMotion)}</style>
+    </section>
+  );
+}
+
+function MarqueeSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [offset, setOffset] = useState(0);
 
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.1,
-      lerp: 0.08,
-      smoothWheel: true,
-      wheelMultiplier: 0.95,
-    });
-
     let frame = 0;
-    const raf = (time: number) => {
-      lenis.raf(time);
-      frame = requestAnimationFrame(raf);
+
+    const update = () => {
+      const sectionTop = sectionRef.current?.getBoundingClientRect().top ?? 0;
+      const scrollY = window.scrollY ?? window.pageYOffset;
+      const value = (scrollY - sectionTop + window.innerHeight) * 0.3;
+      setOffset(value);
     };
 
-    frame = requestAnimationFrame(raf);
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       cancelAnimationFrame(frame);
-      lenis.destroy();
+      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setWordIndex((current) => (current + 1) % rotatingWords.length);
-    }, 2400);
-
-    return () => window.clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    let mounted = true;
-
-    async function loadProjects() {
-      try {
-        const response = await fetch("https://api.github.com/users/AayushKrGupta/repos?per_page=100&sort=updated", {
-          headers: {
-            Accept: "application/vnd.github+json",
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("GitHub API request failed");
-        }
-
-        const repos = (await response.json()) as Repo[];
-        const curated = curateProjects(repos);
-
-        if (mounted && curated.length > 0) {
-          setProjects(curated);
-        }
-      } catch {
-        if (mounted) {
-          setProjects(fallbackProjects);
-        }
-      } finally {
-        if (mounted) {
-          setLoadingProjects(false);
-        }
-      }
-    }
-
-    loadProjects();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (shouldReduceMotion || !heroRef.current || !marqueeRef.current) {
-      return;
-    }
-
-    const hero = heroRef.current;
-    const marquee = marqueeRef.current;
-    const orbElements = gsap.utils.toArray<HTMLElement>('[data-orb="true"]');
-
-    gsap.fromTo(
-      hero.querySelectorAll("[data-reveal='true']"),
-      { y: 40, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1.1,
-        stagger: 0.08,
-        ease: "power3.out",
-      },
-    );
-
-    orbElements.forEach((element, index) => {
-      gsap.to(element, {
-        x: index % 2 === 0 ? 24 : -20,
-        y: index % 2 === 0 ? -18 : 16,
-        duration: 9 + index * 2,
-        ease: "sine.inOut",
-        repeat: -1,
-        yoyo: true,
-      });
-    });
-
-    gsap.to(marquee, {
-      xPercent: -50,
-      duration: 24,
-      repeat: -1,
-      ease: "none",
-    });
-  }, [shouldReduceMotion]);
-
-  const currentWord = rotatingWords[wordIndex];
-  const totalProjects = useCountUp(10);
-  const totalTechnologies = useCountUp(5);
-  const totalApps = useCountUp(4);
-
-  const stats = useMemo(
-    () => [
-      { value: `${totalProjects}+`, label: "Projects Built" },
-      { value: "100,000+", label: "Lines of Code" },
-      { value: `${totalTechnologies}+`, label: "Technologies Mastered" },
-      { value: `${totalApps}+`, label: "Major Applications" },
-    ],
-    [totalApps, totalProjects, totalTechnologies],
-  );
+  const firstRow = marqueeImages.slice(0, 11);
+  const secondRow = marqueeImages.slice(11);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#090909] text-white">
-      <BackgroundOrbs />
-      <AmbientWords />
+    <section ref={sectionRef} className="bg-[#0C0C0C] pt-24 pb-10 sm:pt-32 md:pt-40">
+      <div className="flex flex-col gap-3">
+        <MarqueeRow images={firstRow} offset={offset} direction="right" />
+        <MarqueeRow images={secondRow} offset={offset} direction="left" />
+      </div>
+    </section>
+  );
+}
 
-      <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between rounded-full border border-white/10 bg-white/5 px-4 py-3 shadow-[0_20px_80px_rgba(0,0,0,0.35)] backdrop-blur-2xl sm:px-6">
-          <a href="#home" className="group flex items-center gap-3 text-sm font-medium tracking-[0.32em] text-white/95">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/10 text-[#f37e1c] transition-transform duration-300 group-hover:scale-110">
-              ✦
+function MarqueeRow({
+  images,
+  offset,
+  direction,
+}: {
+  images: string[];
+  offset: number;
+  direction: "right" | "left";
+}) {
+  const transform = direction === "right" ? `translate3d(${offset - 200}px,0,0)` : `translate3d(${-(offset - 200)}px,0,0)`;
+
+  return (
+    <div className="overflow-hidden">
+      <div className="flex w-max gap-3" style={{ transform, willChange: "transform" } as CSSProperties}>
+        {[...images, ...images, ...images].map((src, index) => (
+          <img
+            key={`${src}-${index}`}
+            src={src}
+            alt=""
+            loading="lazy"
+            className="h-[270px] w-[420px] shrink-0 rounded-2xl object-cover"
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function AboutSection() {
+  return (
+    <section id="about" className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0C0C0C] px-5 py-20 sm:px-8 md:px-10">
+      {aboutDecor.map((item) => (
+        <motion.img
+          key={item.src}
+          src={item.src}
+          alt=""
+          className={`pointer-events-none absolute ${item.className}`}
+          initial={{ opacity: 0, x: item.x, y: 0 }}
+          whileInView={{ opacity: 1, x: 0, y: 0 }}
+          transition={{ delay: item.delay, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
+          viewport={{ once: true, margin: "50px", amount: 0 }}
+        />
+      ))}
+
+      <div className="flex w-full flex-col items-center gap-10 sm:gap-14 md:gap-16">
+        <FadeIn delay={0} y={40}>
+          <h2 className="hero-heading text-center font-black uppercase leading-none tracking-tight text-[clamp(3rem,12vw,160px)]">
+            About me
+          </h2>
+        </FadeIn>
+
+        <div className="flex flex-col items-center gap-16 sm:gap-20 md:gap-24">
+          <AnimatedText text={aboutText} />
+
+          <FadeIn delay={0.35} y={20}>
+            <ContactButton href="#contact">Contact Me</ContactButton>
+          </FadeIn>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AnimatedText({ text }: { text: string }) {
+  const paragraphRef = useRef<HTMLParagraphElement>(null);
+  const { scrollYProgress } = useScroll({ target: paragraphRef, offset: ["start 0.8", "end 0.2"] });
+  const [progress, setProgress] = useState(0);
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    setProgress(latest);
+  });
+
+  const characters = useMemo(() => Array.from(text), [text]);
+
+  return (
+    <p
+      ref={paragraphRef}
+      className="max-w-[560px] text-center text-[clamp(1rem,2vw,1.35rem)] font-medium leading-relaxed text-[#D7E2EA]"
+      aria-label={text}
+    >
+      {characters.map((character, index) => {
+        const threshold = characters.length > 1 ? index / (characters.length - 1) : 1;
+        const distance = Math.abs(progress - threshold);
+        const opacity = Math.max(0.2, Math.min(1, 1 - distance / 0.08));
+
+        return (
+          <span key={`${character}-${index}`} className="relative inline-block">
+            <span className="invisible">{character === " " ? "\u00A0" : character}</span>
+            <span className="absolute inset-0" style={{ opacity }}>
+              {character === " " ? "\u00A0" : character}
             </span>
-            <span className="font-display text-base uppercase tracking-[0.28em] sm:text-lg">AAYUSH KUMAR</span>
-            <span className="hidden text-xs uppercase tracking-[0.35em] text-white/55 md:inline">Software Engineer</span>
-          </a>
+          </span>
+        );
+      })}
+    </p>
+  );
+}
 
-          <div className="hidden items-center gap-8 text-xs font-semibold uppercase tracking-[0.34em] text-white/70 lg:flex">
-            {navigation.map((item) => (
-              <a key={item.label} href={item.href} className="transition-colors duration-300 hover:text-white">
-                {item.label}
-              </a>
-            ))}
-          </div>
+function SkillsSection() {
+  return (
+    <section id="skills" className="rounded-t-[40px] bg-white px-5 py-20 text-[#0C0C0C] sm:rounded-t-[50px] sm:px-8 sm:py-24 md:rounded-t-[60px] md:px-10 md:py-32">
+      <FadeIn delay={0} y={40}>
+        <h2 className="mb-16 text-center font-black uppercase leading-none tracking-tight text-[clamp(3rem,12vw,160px)] text-[#0C0C0C] sm:mb-20 md:mb-28">
+          Skills
+        </h2>
+      </FadeIn>
 
-          <div className="flex items-center gap-3">
-            <MagneticButton
-              href="#contact"
-              className="group border-white/15 bg-white/5 text-white transition-colors duration-300 hover:bg-white hover:text-[#090909]"
-            >
-              <span>LET'S BUILD</span>
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:scale-110 group-hover:bg-white">
-                <ArrowUpRight className="h-4 w-4 text-[#f37e1c] transition-colors duration-300 group-hover:text-[#f37e1c]" />
-              </span>
-            </MagneticButton>
-
-            <button className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/90 lg:hidden">
-              <Menu className="h-5 w-5" />
-            </button>
-          </div>
-        </nav>
-      </header>
-
-      <main className="relative z-10">
-        <section id="home" ref={heroRef} className="mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-center px-4 pb-20 pt-28 sm:px-6 lg:px-8">
-          <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr_1.1fr] lg:gap-8">
-            <div className="space-y-8" data-reveal="true">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-white/75 backdrop-blur-xl">
-                <Sparkles className="h-3.5 w-3.5 text-[#f37e1c]" />
-                Computer Science at IIIT Dharwad
+      <div className="mx-auto max-w-5xl">
+        {skills.map((skill, index) => (
+          <FadeIn key={skill.number} delay={index * 0.1} y={24}>
+            <div className="flex gap-6 border-b border-[rgba(12,12,12,0.15)] py-8 sm:gap-8 sm:py-10 md:py-12">
+              <div className="w-[clamp(3rem,10vw,140px)] shrink-0 font-black leading-none text-[clamp(3rem,10vw,140px)] text-[#0C0C0C]">
+                {skill.number}
               </div>
-
-              <div className="space-y-3">
-                <p className="font-display text-5xl uppercase leading-[0.92] tracking-[0.08em] text-white sm:text-6xl lg:text-7xl xl:text-[6.5rem]">
-                  <span className="block">Building</span>
-                  <span className="block">The Future</span>
-                  <span className="block text-[#fd2601]">Of Software</span>
+              <div className="flex-1">
+                <h3 className="text-[clamp(1rem,2.2vw,2.1rem)] font-medium uppercase leading-tight tracking-wide text-[#0C0C0C]">
+                  {skill.name}
+                </h3>
+                <p className="mt-2 max-w-2xl text-[clamp(0.85rem,1.6vw,1.25rem)] font-light leading-relaxed text-[#0C0C0C]/60">
+                  {skill.description}
                 </p>
-
-                <div className="flex items-center gap-3 text-sm uppercase tracking-[0.42em] text-white/50 sm:text-base">
-                  <span>Moving between</span>
-                  <span className="relative min-w-28 overflow-hidden text-[#f37e1c]">
-                    <AnimatePresence mode="wait">
-                      <motion.span
-                        key={currentWord}
-                        initial={{ y: 26, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: -26, opacity: 0 }}
-                        transition={{ duration: 0.35, ease: "easeOut" }}
-                        className="absolute left-0 top-0 inline-flex w-full justify-start font-semibold"
-                      >
-                        {currentWord}
-                      </motion.span>
-                    </AnimatePresence>
-                    <span className="invisible">SYSTEMS</span>
-                  </span>
-                </div>
-              </div>
-
-              <p className="max-w-2xl text-sm leading-7 text-white/72 sm:text-base">
-                <span className="block text-lg font-medium text-white sm:text-xl">B.Tech CSE Student at IIIT Dharwad</span>
-                <span className="mt-3 block max-w-xl text-white/68">{roleDescriptions[0]}</span>
-                <span className="mt-3 block max-w-xl text-white/55">{roleDescriptions[1]}</span>
-              </p>
-
-              <div className="flex flex-wrap gap-3" data-reveal="true">
-                <MagneticButton href="#projects" className="bg-white text-[#090909] shadow-[0_0_0_1px_rgba(255,255,255,0.12)]">
-                  <span>VIEW PROJECTS</span>
-                  <SquareArrowOutUpRight className="h-4 w-4" />
-                </MagneticButton>
-                <MagneticButton href="#contact" className="border-white/15 bg-white/5 text-white">
-                  <span>CONTACT</span>
-                  <Mail className="h-4 w-4 text-[#f37e1c]" />
-                </MagneticButton>
               </div>
             </div>
+          </FadeIn>
+        ))}
+      </div>
+    </section>
+  );
+}
 
-            <div className="relative mx-auto flex w-full max-w-[26rem] items-center justify-center lg:max-w-none" data-reveal="true">
-              <div className="absolute inset-0 -z-10 rounded-full bg-[radial-gradient(circle,rgba(253,38,1,0.28),transparent_55%)] blur-3xl" />
+function ProjectsSection() {
+  return (
+    <section
+      id="projects"
+      className="relative z-10 -mt-10 rounded-t-[40px] bg-[#0C0C0C] px-5 pt-20 pb-36 text-[#D7E2EA] sm:-mt-12 sm:rounded-t-[50px] sm:px-8 md:-mt-14 md:rounded-t-[60px] md:px-10 md:pt-24 md:pb-48"
+    >
+      <FadeIn delay={0} y={40}>
+        <h2 className="hero-heading mb-16 text-center font-black uppercase leading-none tracking-tight text-[clamp(3rem,12vw,160px)] sm:mb-20 md:mb-28">
+          Project
+        </h2>
+      </FadeIn>
 
-              <div className="relative isolate w-full max-w-[22rem] sm:max-w-[25rem]">
-                <div className="absolute -inset-6 rounded-[2.5rem] border border-white/10 bg-white/5 blur-2xl" />
-                <div className="relative overflow-hidden rounded-[2.5rem] border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-3 shadow-[0_30px_120px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.16),transparent_45%),linear-gradient(180deg,transparent,rgba(0,0,0,0.32))]" />
-                  <div className="relative rounded-[2rem] border border-white/10 bg-black/30 p-4">
-                    <div className="flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.4em] text-white/60">
-                      <span>Portrait Interface</span>
-                      <span className="text-[#f37e1c]">A.K.</span>
-                    </div>
+      <div className="mx-auto max-w-7xl relative pb-20">
+        {projects.map((project, index) => (
+          <ProjectFolderCard
+            key={project.name}
+            project={project}
+            index={index}
+            total={projects.length}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
 
-                    <div className="relative mt-4 overflow-hidden rounded-[1.8rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))]">
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(253,38,1,0.18),transparent_28%),radial-gradient(circle_at_50%_75%,rgba(243,126,28,0.18),transparent_35%)]" />
-                      <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_35%,rgba(255,255,255,0.04)_35%,rgba(255,255,255,0.04)_42%,transparent_42%)] opacity-60" />
-                      <img
-                        src="/portrait-aayush.svg"
-                        alt="Stylized portrait of Aayush Kumar"
-                        className="relative h-[31rem] w-full object-cover grayscale [mask-image:linear-gradient(180deg,black_82%,transparent_100%)]"
-                      />
-                      <div className="pointer-events-none absolute inset-0 [box-shadow:inset_0_0_80px_rgba(253,38,1,0.18),inset_0_0_0_1px_rgba(255,255,255,0.03)]" />
-                    </div>
+function ProjectFolderCard({
+  project,
+  index,
+}: {
+  project: ProjectCard;
+  index: number;
+  total: number;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
 
-                    <div className="mt-4 grid grid-cols-3 gap-3 text-[11px] font-medium uppercase tracking-[0.24em] text-white/60">
-                      <div className="rounded-2xl border border-white/8 bg-white/5 p-3 text-center">Mobile</div>
-                      <div className="rounded-2xl border border-white/8 bg-white/5 p-3 text-center">AI</div>
-                      <div className="rounded-2xl border border-white/8 bg-white/5 p-3 text-center">Build</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "start start"],
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 1], [0.92, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.4, 1], [0.6, 0.95, 1]);
+
+  return (
+    <div
+      ref={containerRef}
+      className="sticky mb-16 sm:mb-24"
+      style={{
+        top: `${80 + index * 36}px`,
+        zIndex: index + 1,
+      }}
+    >
+      <motion.article
+        style={{
+          scale,
+          opacity,
+        }}
+        className="relative rounded-[32px] sm:rounded-[44px] md:rounded-[56px] border-2 border-[#D7E2EA]/30 bg-[#0C0C0C] p-5 sm:p-8 md:p-10 shadow-[0_-10px_35px_rgba(0,0,0,0.85)] backdrop-blur-md transition-all duration-300 hover:border-[#D7E2EA]/70"
+      >
+        <div className="flex flex-wrap items-start justify-between gap-4 border-b border-[#D7E2EA]/15 pb-6 sm:pb-8">
+          <div className="flex items-start gap-4 sm:gap-6">
+            <div className="font-black leading-none text-[clamp(3rem,10vw,140px)] text-[#D7E2EA]">
+              {project.number}
             </div>
-
-            <div className="grid gap-4 lg:justify-self-end" data-reveal="true">
-              <GlassCard className="lg:translate-x-6">
-                <p className="text-[11px] uppercase tracking-[0.32em] text-white/45">// CURRENTLY BUILDING</p>
-                <h2 className="mt-3 text-2xl font-semibold text-white">Sim Gamepad</h2>
-                <p className="mt-3 text-sm leading-6 text-white/68">
-                  Transforming smartphones into precision gaming controllers using React Native, Rust, Kotlin, WPF, and telemetry systems.
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2 text-[10px] uppercase tracking-[0.24em] text-white/55">
-                  {["React Native", "Rust", "Kotlin", "WPF", "UDP"].map((item) => (
-                    <span key={item} className="rounded-full border border-white/8 bg-white/5 px-3 py-1">
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </GlassCard>
-
-              <GlassCard className="lg:-translate-x-6">
-                <p className="text-[11px] uppercase tracking-[0.32em] text-white/45">// SPECIALIZATIONS</p>
-                <div className="mt-4 grid grid-cols-2 gap-2 text-sm text-white/72 sm:grid-cols-3 lg:grid-cols-1">
-                  {specializations.map((item) => (
-                    <span key={item} className="rounded-2xl border border-white/8 bg-white/5 px-3 py-2">
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </GlassCard>
-
-              <GlassCard className="lg:translate-x-8">
-                <p className="text-[11px] uppercase tracking-[0.32em] text-white/45">// IN FOCUS</p>
-                <div className="mt-4 flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.24em] text-white/60">
-                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">IIIT Dharwad</span>
-                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">Software Developer</span>
-                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">Open Source Contributor</span>
-                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">AI Enthusiast</span>
-                </div>
-              </GlassCard>
+            <div>
+              <div className="text-[clamp(0.75rem,1vw,1rem)] font-medium uppercase tracking-[0.3em] text-[#D7E2EA]/55">
+                {project.category}
+              </div>
+              <h3 className="mt-2 text-[clamp(1rem,2.2vw,2.1rem)] font-bold uppercase tracking-wide text-[#D7E2EA]">
+                {project.name}
+              </h3>
             </div>
           </div>
 
-          <div className="mt-14 grid gap-4 sm:grid-cols-2 xl:grid-cols-4" data-reveal="true">
-            {stats.map((stat) => (
-              <StatCard key={stat.label} value={stat.value} label={stat.label} />
-            ))}
-          </div>
-        </section>
+          <LiveProjectButton href="#">Live Project</LiveProjectButton>
+        </div>
 
-        <section id="projects" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-          <SectionHeading
-            kicker="Featured Projects"
-            title="GitHub-backed builds with mobile, desktop, and ML depth"
-            description="The portfolio pulls from GitHub when available and falls back to a curated presentation so the section stays fast, resilient, and deployable."
-          />
-
-          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {projects.map((project) => (
-              <motion.a
-                key={project.name}
-                href={project.href}
-                target="_blank"
-                rel="noreferrer"
-                whileHover={shouldReduceMotion ? undefined : { y: -8, scale: 1.01 }}
-                transition={{ type: "spring", stiffness: 220, damping: 20 }}
-                className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-5 backdrop-blur-xl"
-              >
-                <div className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${project.accent}`} />
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-[11px] uppercase tracking-[0.32em] text-white/45">Featured</p>
-                    <h3 className="mt-3 text-xl font-semibold text-white">{project.name}</h3>
-                  </div>
-                  <span className="rounded-full border border-white/10 bg-white/5 p-2 text-white/70 transition-transform duration-300 group-hover:rotate-45">
-                    <ArrowUpRight className="h-4 w-4" />
-                  </span>
-                </div>
-
-                <p className="mt-4 min-h-20 text-sm leading-6 text-white/68">{project.description}</p>
-
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-white/10 bg-black/30 px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-white/65"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="mt-6 flex items-center gap-3 text-xs uppercase tracking-[0.28em] text-white/45">
-                  <Github className="h-4 w-4 text-[#f37e1c]" />
-                  <span>GitHub API Ready</span>
-                  <ExternalLink className="ml-auto h-4 w-4" />
-                </div>
-              </motion.a>
-            ))}
-          </div>
-
-          <p className="mt-4 text-xs uppercase tracking-[0.35em] text-white/40">
-            {loadingProjects ? "Syncing GitHub projects..." : "Projects hydrated from GitHub when available."}
-          </p>
-        </section>
-
-        <section id="skills" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-          <SectionHeading
-            kicker="Skills"
-            title="A broad stack that spans interfaces, infrastructure, and intelligence"
-            description="Each category is animated as a compact card so the section reads well on mobile while still feeling premium on desktop."
-          />
-
-          <div className="mt-10 grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
-            {skillGroups.map((group) => (
-              <motion.article
-                key={group.title}
-                whileHover={shouldReduceMotion ? undefined : { y: -6 }}
-                className="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl"
-              >
-                <div className="flex items-center justify-between gap-4">
-                  <h3 className="text-lg font-semibold text-white">{group.title}</h3>
-                  <Code2 className="h-5 w-5 text-[#f37e1c]" />
-                </div>
-                <div className="mt-5 flex flex-wrap gap-3">
-                  {group.items.map((item) => (
-                    <span key={item} className="rounded-full border border-white/10 bg-black/30 px-4 py-2 text-sm text-white/75">
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </motion.article>
-            ))}
-          </div>
-        </section>
-
-        <section id="experience" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-          <SectionHeading
-            kicker="Achievements"
-            title="Timeline cards that show momentum, not just milestones"
-            description="A short timeline keeps the section scannable and makes the page feel alive without adding heavy motion or clutter."
-          />
-
-          <div className="mt-10 grid gap-4">
-            {achievements.map((item, index) => (
-              <motion.div
-                key={item}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.55, delay: index * 0.08 }}
-                className="flex items-start gap-5 rounded-[1.75rem] border border-white/10 bg-white/5 p-5 backdrop-blur-xl"
-              >
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-black/30 text-[#f37e1c]">
-                  <Zap className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="text-sm uppercase tracking-[0.32em] text-white/45">{String(index + 1).padStart(2, "0")}</p>
-                  <h3 className="mt-2 text-xl font-semibold text-white">{item}</h3>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        <section id="contact" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="rounded-[2.5rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 backdrop-blur-2xl sm:p-8 lg:p-10">
-            <SectionHeading
-              kicker="Contact"
-              title="Let’s build something sharp, fast, and memorable"
-              description="Open to mobile, AI, and full-stack work that benefits from strong product taste and careful engineering."
+        <div className="mt-6 grid gap-4 lg:grid-cols-[40%_60%]">
+          <div className="grid gap-4">
+            <img
+              src={project.images[0]}
+              alt=""
+              loading="lazy"
+              className="h-[clamp(140px,17vw,240px)] w-full rounded-[24px] sm:rounded-[36px] md:rounded-[44px] object-cover"
             />
-
-            <div className="mt-10 flex flex-wrap gap-4">
-              <MagneticButton href="https://github.com/AayushKrGupta" className="bg-white text-[#090909]">
-                <Github className="h-4 w-4" />
-                <span>GITHUB PROFILE</span>
-              </MagneticButton>
-              <MagneticButton href="mailto:aayush@example.com" className="border-white/15 bg-white/5 text-white">
-                <Mail className="h-4 w-4 text-[#f37e1c]" />
-                <span>EMAIL ME</span>
-              </MagneticButton>
-              <MagneticButton href="#home" className="border-white/15 bg-white/5 text-white">
-                <Download className="h-4 w-4 text-[#f37e1c]" />
-                <span>TOP OF PAGE</span>
-              </MagneticButton>
-            </div>
+            <img
+              src={project.images[1]}
+              alt=""
+              loading="lazy"
+              className="h-[clamp(170px,23vw,350px)] w-full rounded-[24px] sm:rounded-[36px] md:rounded-[44px] object-cover"
+            />
           </div>
-        </section>
-      </main>
 
-      <footer className="relative z-10 border-t border-white/10 bg-black/25">
-        <div className="mx-auto max-w-7xl overflow-hidden px-4 py-8 sm:px-6 lg:px-8">
-          <div className="text-[10px] uppercase tracking-[0.45em] text-white/35">Technology stack</div>
-          <div className="mt-4 overflow-hidden rounded-full border border-white/10 bg-white/5 py-4">
-            <div ref={marqueeRef} className="flex w-max items-center gap-4 whitespace-nowrap px-4">
-              {[...technologies, ...technologies].map((item, index) => (
-                <span
-                  key={`${item}-${index}`}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/30 px-4 py-2 text-sm text-white/80"
-                >
-                  <Sparkles className="h-3.5 w-3.5 text-[#f37e1c]" />
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div className="mt-6 flex flex-col gap-3 text-sm text-white/50 sm:flex-row sm:items-center sm:justify-between">
-            <p>© 2026 Aayush Kumar</p>
-            <p>Built with React, TypeScript, Tailwind CSS, Framer Motion, GSAP, and Lenis.</p>
+          <div className="min-h-full">
+            <img
+              src={project.images[2]}
+              alt=""
+              loading="lazy"
+              className="h-full min-h-[clamp(330px,44vw,600px)] w-full rounded-[24px] sm:rounded-[36px] md:rounded-[44px] object-cover"
+            />
           </div>
         </div>
-      </footer>
+      </motion.article>
     </div>
   );
 }
 
-function curateProjects(repos: Repo[]): ProjectCard[] {
-  const normalized = repos
-    .map((repo) => ({
-      repo,
-      score: projectScore(repo),
-    }))
-    .filter(({ score }) => score > 0)
-    .sort((left, right) => right.score - left.score)
-    .slice(0, 4)
-    .map(({ repo }) => ({
-      name: repo.name,
-      description: repo.description ?? "A featured repository from Aayush Kumar's GitHub profile.",
-      tags: repo.topics.length > 0 ? repo.topics.slice(0, 4) : repo.language ? [repo.language] : ["GitHub"],
-      href: repo.homepage ?? repo.html_url,
-      accent: repo.language?.toLowerCase().includes("rust") ? "from-[#fd2601] via-[#f37e1c] to-white" : "from-white/20 via-[#f37e1c]/50 to-[#fd2601]/70",
-    }));
-
-  return normalized.length > 0 ? normalized : fallbackProjects;
-}
-
-function projectScore(repo: Repo) {
-  const text = `${repo.name} ${repo.description ?? ""} ${repo.topics.join(" ")}`.toLowerCase();
-  const keywords = [
-    "simgamepad",
-    "mindscribe",
-    "intelligent",
-    "perception",
-    "alz",
-    "vision",
-    "water",
-    "marketing",
-    "android",
-    "ml",
-    "computer vision",
-  ];
-
-  return keywords.reduce((score, keyword) => score + (text.includes(keyword) ? 1 : 0), 0) + Math.min(repo.stargazers_count, 3) / 3;
-}
-
-function useCountUp(target: number, duration = 1200) {
-  const [value, setValue] = useState(0);
-  const shouldReduceMotion = useReducedMotion();
-
-  useEffect(() => {
-    if (shouldReduceMotion) {
-      setValue(target);
-      return;
-    }
-
-    let frame = 0;
-    let start = 0;
-
-    const animate = (timestamp: number) => {
-      if (!start) {
-        start = timestamp;
-      }
-
-      const progress = Math.min((timestamp - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setValue(Math.round(target * eased));
-
-      if (progress < 1) {
-        frame = requestAnimationFrame(animate);
-      }
-    };
-
-    frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
-  }, [duration, shouldReduceMotion, target]);
-
-  return value;
-}
-
-function MagneticButton({
-  href,
-  className,
+function FadeIn({
   children,
+  delay = 0,
+  duration = 0.7,
+  x = 0,
+  y = 30,
+  className = "",
 }: {
-  href: string;
-  className?: string;
   children: ReactNode;
+  delay?: number;
+  duration?: number;
+  x?: number;
+  y?: number;
+  className?: string;
 }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 300, damping: 24, mass: 0.8 });
-  const springY = useSpring(y, { stiffness: 300, damping: 24, mass: 0.8 });
+  const reduceMotion = usePrefersReducedMotion();
 
-  const onPointerMove = (event: PointerEvent<HTMLAnchorElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const offsetX = (event.clientX - rect.left - rect.width / 2) / 7;
-    const offsetY = (event.clientY - rect.top - rect.height / 2) / 7;
-
-    x.set(offsetX);
-    y.set(offsetY);
-  };
-
-  const reset = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  return (
-    <motion.a
-      href={href}
-      style={{ x: springX, y: springY }}
-      onPointerMove={onPointerMove}
-      onPointerLeave={reset}
-      className={`inline-flex items-center gap-3 rounded-full border px-5 py-3 text-sm font-semibold uppercase tracking-[0.24em] transition-colors duration-300 ${className ?? ""}`}
-    >
-      {children}
-    </motion.a>
-  );
-}
-
-function SectionHeading({
-  kicker,
-  title,
-  description,
-}: {
-  kicker: string;
-  title: string;
-  description: string;
-}) {
-  return (
-    <div className="max-w-3xl">
-      <p className="text-[11px] font-semibold uppercase tracking-[0.4em] text-[#f37e1c]">{kicker}</p>
-      <h2 className="mt-3 font-display text-3xl uppercase leading-tight tracking-[0.08em] text-white sm:text-4xl lg:text-5xl">{title}</h2>
-      <p className="mt-4 max-w-2xl text-sm leading-7 text-white/65 sm:text-base">{description}</p>
-    </div>
-  );
-}
-
-function StatCard({ value, label }: { value: string; label: string }) {
   return (
     <motion.div
-      whileHover={{ y: -4 }}
-      transition={{ type: "spring", stiffness: 220, damping: 18 }}
-      className="rounded-[1.75rem] border border-white/10 bg-white/5 p-5 text-center backdrop-blur-xl"
+      className={className}
+      initial={{ opacity: 0, x, y }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      transition={{
+        delay: reduceMotion ? 0 : delay,
+        duration: reduceMotion ? 0.01 : duration,
+        ease: [0.25, 0.1, 0.25, 1],
+      }}
+      viewport={{ once: true, margin: "50px", amount: 0 }}
     >
-      <p className="font-display text-4xl uppercase tracking-[0.08em] text-white sm:text-5xl">{value}</p>
-      <p className="mt-2 text-xs uppercase tracking-[0.32em] text-white/55">{label}</p>
+      {children}
     </motion.div>
   );
 }
 
-function GlassCard({ className = "", children }: { className?: string; children: ReactNode }) {
+function Magnet({
+  children,
+  padding,
+  strength,
+  reduceMotion,
+}: {
+  children: ReactNode;
+  padding: number;
+  strength: number;
+  reduceMotion: boolean;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [transform, setTransform] = useState({ x: 0, y: 0, active: false });
+
+  const update = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (reduceMotion) {
+      return;
+    }
+
+    const element = ref.current;
+    if (!element) {
+      return;
+    }
+
+    const rect = element.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const dx = event.clientX - centerX;
+    const dy = event.clientY - centerY;
+
+    const withinX = Math.abs(dx) <= rect.width / 2 + padding;
+    const withinY = Math.abs(dy) <= rect.height / 2 + padding;
+
+    if (!withinX || !withinY) {
+      setTransform({ x: 0, y: 0, active: false });
+      return;
+    }
+
+    setTransform({ x: dx / strength, y: dy / strength, active: true });
+  };
+
   return (
-    <div className={`rounded-[2rem] border border-white/10 bg-white/5 p-5 backdrop-blur-xl ${className}`}>
+    <div
+      ref={ref}
+      onPointerMove={update}
+      onPointerLeave={() => setTransform({ x: 0, y: 0, active: false })}
+      className="will-change-transform"
+      style={{
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        transition: transform.active ? "transform 0.3s ease-out" : "transform 0.6s ease-in-out",
+        willChange: "transform",
+      }}
+    >
       {children}
     </div>
   );
 }
 
-function BackgroundOrbs() {
+function ContactButton({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div data-orb="true" className="absolute -right-24 bottom-10 h-[300px] w-[300px] rounded-full bg-[#fd2601] opacity-40 blur-[120px]" />
-      <div data-orb="true" className="absolute -left-20 bottom-20 h-[600px] w-[600px] rounded-full bg-[#f37e1c] opacity-30 blur-[100px]" />
-      <div data-orb="true" className="absolute left-1/2 top-0 h-[400px] w-[400px] -translate-x-1/2 rounded-full bg-white opacity-[0.04] blur-[160px]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(253,38,1,0.12),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(243,126,28,0.08),transparent_35%)] opacity-70" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.02),transparent_30%,rgba(0,0,0,0.18))]" />
-    </div>
+    <a href={href} className="contact-button inline-flex items-center justify-center text-xs font-medium uppercase tracking-widest sm:text-sm md:text-base">
+      {children}
+    </a>
   );
 }
 
-function AmbientWords() {
-  const words = ["SIM GAMEPAD", "AI", "REACT", "RUST", "ANDROID"];
+function LiveProjectButton({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <a href={href} className="live-project-button inline-flex items-center justify-center text-sm font-medium uppercase tracking-widest sm:text-base">
+      {children}
+    </a>
+  );
+}
+
+function usePrefersReducedMotion() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setPrefersReducedMotion(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  return prefersReducedMotion;
+}
+
+function heroAnimations(reduceMotion: boolean) {
+  return `
+    .anim-fade-in {
+      animation: anim-fade-in ${reduceMotion ? "0.01ms" : "1.2s"} ease-out both;
+    }
+
+    .anim-rise-in {
+      animation: anim-rise-in ${reduceMotion ? "0.01ms" : "1.4s"} cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: ${reduceMotion ? "0ms" : "300ms"};
+    }
+
+    .anim-fade-up {
+      animation: anim-fade-up ${reduceMotion ? "0.01ms" : "0.9s"} cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .anim-line {
+      animation: anim-line ${reduceMotion ? "0.01ms" : "1.1s"} cubic-bezier(0.76, 0, 0.24, 1) both;
+      animation-delay: ${reduceMotion ? "0ms" : "1200ms"};
+    }
+
+    .marquee {
+      animation: marquee 30s linear infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .anim-fade-in,
+      .anim-rise-in,
+      .anim-fade-up,
+      .anim-line,
+      .marquee {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
+    @keyframes anim-fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes anim-rise-in {
+      from { opacity: 0; transform: translateY(4vh) scale(1.03); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes anim-fade-up {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes anim-line {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+  `;
+}
+
+function ContactSection() {
+  const socials = [
+    {
+      name: "GitHub",
+      username: "github.com/AayushKrGupta",
+      url: "https://github.com/AayushKrGupta",
+      icon: Github,
+    },
+    {
+      name: "LinkedIn",
+      username: "AayushKrGupta",
+      url: "https://linkedin.com/in/AayushKrGupta",
+      icon: Linkedin,
+    },
+    {
+      name: "Twitter / X",
+      username: "@AaayushKrGupta",
+      url: "https://x.com/AaayushKrGupta",
+      icon: Twitter,
+    },
+    {
+      name: "Instagram",
+      username: "@aayush.kumar.gupta",
+      url: "https://instagram.com/aayush.kumar.gupta",
+      icon: Instagram,
+    },
+  ];
 
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      {words.map((word, index) => (
-        <span
-          key={word}
-          className="absolute select-none font-display text-[clamp(4rem,10vw,10rem)] uppercase tracking-[0.12em] text-white/5 blur-[5px]"
-          style={{
-            left: `${8 + index * 15}%`,
-            top: `${12 + (index % 2) * 20}%`,
-            transform: `rotate(${index % 2 === 0 ? -12 : 10}deg)`,
-          }}
-        >
-          {word}
-        </span>
-      ))}
-    </div>
+    <section
+      id="contact"
+      className="relative z-10 border-t border-[#D7E2EA]/10 bg-[#0C0C0C] px-5 py-20 text-[#D7E2EA] sm:px-8 sm:py-28 md:px-10 md:py-36"
+    >
+      <div className="mx-auto max-w-6xl">
+        <FadeIn delay={0} y={40}>
+          <div className="mb-12 text-center sm:mb-16">
+            <span className="text-sm font-medium uppercase tracking-[0.3em] text-[#D7E2EA]/60">
+              Get In Touch
+            </span>
+            <h2 className="hero-heading mt-3 font-black uppercase leading-none tracking-tight text-[clamp(2.5rem,8vw,110px)]">
+              Let&apos;s Work Together
+            </h2>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.15} y={30}>
+          <div className="mb-14 flex justify-center">
+            <a
+              href="mailto:aayushkr.dev@gmail.com"
+              className="group relative flex flex-col items-center gap-4 rounded-full border-2 border-[#D7E2EA]/30 bg-[#0C0C0C] px-8 py-4 sm:flex-row sm:px-12 sm:py-6 transition-all duration-300 hover:border-[#D7E2EA] hover:bg-[#D7E2EA]/10 hover:scale-[1.02]"
+            >
+              <div className="flex items-center gap-3">
+                <Mail className="h-6 w-6 text-[#D7E2EA] transition-transform duration-300 group-hover:scale-110" />
+                <span className="text-lg font-semibold tracking-wide text-[#D7E2EA] sm:text-2xl">
+                  aayushkr.dev@gmail.com
+                </span>
+              </div>
+              <ArrowUpRight className="h-5 w-5 text-[#D7E2EA]/60 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[#D7E2EA]" />
+            </a>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.3} y={30}>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+            {socials.map((social) => {
+              const Icon = social.icon;
+              return (
+                <a
+                  key={social.name}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col justify-between rounded-2xl border border-[#D7E2EA]/15 bg-[#141414] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#D7E2EA]/50 hover:bg-[#1c1c1c]"
+                >
+                  <div className="flex items-center justify-between">
+                    <Icon className="h-7 w-7 text-[#D7E2EA] transition-transform duration-300 group-hover:scale-110" />
+                    <ArrowUpRight className="h-5 w-5 text-[#D7E2EA]/40 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#D7E2EA]" />
+                  </div>
+                  <div className="mt-8">
+                    <span className="text-xs font-medium uppercase tracking-wider text-[#D7E2EA]/50">
+                      {social.name}
+                    </span>
+                    <p className="mt-1 truncate text-sm font-semibold text-[#D7E2EA] sm:text-base">
+                      {social.username}
+                    </p>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </FadeIn>
+
+        <div className="mt-20 flex flex-col items-center justify-between gap-4 border-t border-[#D7E2EA]/10 pt-8 text-xs uppercase tracking-widest text-[#D7E2EA]/40 sm:flex-row">
+          <p>© {new Date().getFullYear()} Aayush Kumar. All rights reserved.</p>
+          <a href="#about" className="transition-colors hover:text-[#D7E2EA]">
+            Back to top ↑
+          </a>
+        </div>
+      </div>
+    </section>
   );
 }
 
