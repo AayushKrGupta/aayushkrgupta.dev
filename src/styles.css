@@ -114,3 +114,12 @@ a {
     scroll-behavior: auto !important;
   }
 }
+
+@keyframes techIconsScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

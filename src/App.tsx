@@ -17,7 +17,10 @@ type ResumeHighlight = {
   description: string;
   tags: string[];
   accent: string;
-  variant?: "default" | "stats" | "quote";
+  variant?: "default" | "stats" | "quote" | "techstack" | "image";
+  techIcons?: { src: string; alt: string }[];
+  imageSrc?: string;
+  logo?: string;
   stats?: { value: string; label: string }[];
   quote?: string;
   link?: string;
@@ -33,6 +36,7 @@ const resumeCards: ResumeHighlight[] = [
     description: "Built an independent platform for experimenting with software ideas and rapid product development.",
     tags: ["Product Innovation", "Full-Stack", "Web Engine"],
     accent: "#b600a8",
+    logo: "/BVlogo.png",
     link: "https://brancovenn.com",
   },
   {
@@ -43,7 +47,7 @@ const resumeCards: ResumeHighlight[] = [
     tagline: "GitHub Ecosystem",
     description: "Submitted PRs, bug fixes, and feature enhancements for MetaMask, Rocket.Chat, Zulip, SigNoz, and Appwrite.",
     tags: ["MetaMask", "Zulip", "Rocket.Chat", "Appwrite", "SigNoz"],
-    accent: "#D7E2EA",
+    accent: "#00b4d8",
     link: "https://github.com/AayushKrGupta",
   },
   {
@@ -54,27 +58,56 @@ const resumeCards: ResumeHighlight[] = [
     tagline: "Low-Latency Sockets",
     description: "Implemented a virtual gamepad system using TCP/UDP socket programming to transmit mobile inputs as controller signals.",
     tags: ["TCP/UDP Sockets", "Low Latency", "Mobile Controller"],
-    accent: "#be4c00",
+    accent: "#ff6b00",
+    logo: "/simgamepad_logo.png",
   },
   {
-    id: "visually-impaired-ai",
+    id: "tech-stack",
     number: "04",
-    category: "AI & ACCESSIBILITY",
-    title: "Intelligent Perception",
-    tagline: "Visually Impaired AI Assistant",
-    description: "AI-powered assistant providing real-time environmental understanding via multimodal perception, NLP speech, and integrated APIs.",
-    tags: ["Multimodal AI", "NLP Speech", "Location APIs"],
+    category: "TECH STACK",
+    title: "Languages & Tools",
+    tagline: "Full Toolkit",
+    description: "",
+    tags: [],
     accent: "#7621b0",
+    variant: "techstack",
+    techIcons: [
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", alt: "JavaScript" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg", alt: "React" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/androidstudio/androidstudio-original.svg", alt: "Android Studio" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/blender/blender-original.svg", alt: "Blender" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg", alt: "C" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg", alt: "C++" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg", alt: "C#" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg", alt: "CSS3" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg", alt: "Docker" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original.svg", alt: ".NET" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg", alt: "FastAPI" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg", alt: "Firebase" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg", alt: "Git" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg", alt: "Gradle" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg", alt: "HTML5" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg", alt: "Java" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jetpackcompose/jetpackcompose-original.svg", alt: "Jetpack Compose" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kaggle/kaggle-original.svg", alt: "Kaggle" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg", alt: "Kotlin" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg", alt: "Linux" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg", alt: "Next.js" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg", alt: "Node.js" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg", alt: "Python" },
+    ],
   },
   {
-    id: "smart-water",
+    id: "motivation",
     number: "05",
-    category: "IOT & TELEMETRY",
-    title: "Smart Water System",
-    tagline: "Sensor Integration Dashboard",
-    description: "Analyzed water usage and tank levels using REST API-based sensor integrations and a real-time monitoring dashboard.",
-    tags: ["REST APIs", "IoT Sensors", "Real-Time Dashboard"],
+    category: "MOTIVATION",
+    title: "Daily Drive",
+    tagline: "Inspiration",
+    description: "",
+    tags: [],
     accent: "#fd2601",
+    variant: "image",
+    imageSrc: "/motivation.jpg",
   },
   {
     id: "academic-background",
@@ -84,7 +117,7 @@ const resumeCards: ResumeHighlight[] = [
     tagline: "CGPA: 7.87 / 10",
     description: "B.Tech in Electronics and Communication Engineering with deep coursework in DSA, OS, DBMS, Computer Networks, and AI.",
     tags: ["DSA", "Operating Systems", "Computer Networks"],
-    accent: "#b600a8",
+    accent: "#10b981",
   },
   {
     id: "tech-stack-infrastructure",
@@ -94,7 +127,7 @@ const resumeCards: ResumeHighlight[] = [
     tagline: "Tooling & Containerization",
     description: "Proficient with Docker containerization, Kubernetes, Linux administration, MATLAB signal modeling, Wireshark, and Android Studio.",
     tags: ["Docker", "Kubernetes", "Linux", "FastAPI"],
-    accent: "#be4c00",
+    accent: "#eab308",
   },
   {
     id: "statistics",
@@ -104,7 +137,7 @@ const resumeCards: ResumeHighlight[] = [
     tagline: "",
     description: "",
     tags: [],
-    accent: "#D7E2EA",
+    accent: "#ec4899",
     variant: "stats",
     stats: [
       { value: "10+", label: "Projects" },
@@ -120,9 +153,10 @@ const resumeCards: ResumeHighlight[] = [
     tagline: "",
     description: "",
     tags: [],
-    accent: "#b600a8",
+    accent: "#6366f1",
     variant: "quote",
-    quote: "Building in public.\nLearning continuously.\nShipping relentlessly.",
+    imageSrc: "/aayushkrgupta.png",
+    quote: "Founder. Engineer. Builder.\nTurning ambitious ideas into reality",
   },
 ];
 
@@ -253,7 +287,7 @@ const projects: ProjectCard[] = [
 ];
 
 const aboutText =
-  "Aayush Kumar is a Electronics and Communication Engineering student at IIIT Dharwad, a software developer, AI enthusiast, and creator of mobile, desktop, and machine-learning projects. I enjoy building polished experiences across Android, computer vision, system design, and modern web technologies.";
+  "I'm Aayush Kumar, an Electronics and Communication Engineering student at IIIT Dharwad, founder of [@BrancoVenn](https://brancovenn.com) and creator of Sim Gamepad. I build modern mobile, desktop, and AI-powered applications with a focus on performance, design, and user experience. My interests include Android development, system design, computer vision, machine learning, and building products that solve real-world problems.";
 
 function App() {
   useEffect(() => {
@@ -463,14 +497,25 @@ function ResumeHighlightCard({ card }: { card: ResumeHighlight }) {
       <motion.div
         whileHover={{ y: -4, scale: 1.015 }}
         transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
-        className="group relative flex h-[240px] w-[350px] sm:h-[265px] sm:w-[420px] shrink-0 items-center justify-center overflow-hidden rounded-[28px] sm:rounded-[36px] border border-[#D7E2EA]/20 bg-[#121212] shadow-[0_10px_30px_rgba(0,0,0,0.85)] transition-all duration-300 hover:border-[#D7E2EA]/45 hover:bg-[#181818]"
+        className="group relative flex h-[240px] w-[350px] sm:h-[265px] sm:w-[420px] shrink-0 items-center justify-center overflow-hidden rounded-[28px] sm:rounded-[36px] border border-[#D7E2EA]/20 bg-[#121212] shadow-[0_10px_30px_rgba(0,0,0,0.85)] transition-all duration-300 hover:border-[#6366f1]/45 hover:bg-[#181818]"
       >
         <div
-          className="absolute left-0 top-0 h-full w-[4px] rounded-l-[28px] sm:rounded-l-[36px] opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+          className="absolute left-0 top-0 h-full w-[4px] z-10 rounded-l-[28px] sm:rounded-l-[36px] opacity-80 group-hover:opacity-100 transition-opacity duration-300"
           style={{ backgroundColor: card.accent }}
         />
 
-        <div className="px-8 sm:px-10 text-center">
+        {card.imageSrc && (
+          <>
+            <img
+              src={card.imageSrc}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover blur-sm opacity-35 scale-110 transition-transform duration-500 group-hover:scale-115"
+            />
+            <div className="absolute inset-0 bg-black/50" />
+          </>
+        )}
+
+        <div className="relative z-10 px-8 sm:px-10 text-center">
           {card.quote.split("\n").map((line, i) => (
             <p
               key={i}
@@ -479,6 +524,94 @@ function ResumeHighlightCard({ card }: { card: ResumeHighlight }) {
               {line}
             </p>
           ))}
+        </div>
+      </motion.div>
+    );
+  }
+
+  // Image card variant
+  if (variant === "image" && card.imageSrc) {
+    return (
+      <motion.div
+        whileHover={{ y: -4, scale: 1.015 }}
+        transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+        className="group relative flex h-[240px] w-[350px] sm:h-[265px] sm:w-[420px] shrink-0 flex-col justify-between overflow-hidden rounded-[28px] sm:rounded-[36px] border border-[#D7E2EA]/20 bg-[#121212] shadow-[0_10px_30px_rgba(0,0,0,0.85)] transition-all duration-300 hover:border-[#fd2601]/45 hover:bg-[#181818]"
+      >
+        <div
+          className="absolute left-0 top-0 h-full w-[4px] z-10 rounded-l-[28px] sm:rounded-l-[36px] opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+          style={{ backgroundColor: card.accent }}
+        />
+        <img
+          src={card.imageSrc}
+          alt={card.title || "Motivation"}
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        <div className="relative z-10 flex h-full flex-col justify-between pl-6 pr-6 sm:pl-8 sm:pr-8 pt-6 sm:pt-8 pb-6 sm:pb-8">
+          <div className="flex items-start justify-between gap-3 border-b border-white/20 pb-3.5">
+            <div className="flex flex-col gap-1">
+              <span className="font-black text-2xl sm:text-3xl leading-none tracking-tight" style={{ color: card.accent }}>
+                {card.number}
+              </span>
+              <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
+                {card.category}
+              </span>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  // Tech stack card variant
+  if (variant === "techstack" && card.techIcons) {
+    const icons = card.techIcons;
+    return (
+      <motion.div
+        whileHover={{ y: -4, scale: 1.015 }}
+        transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+        className="group relative flex h-[240px] w-[350px] sm:h-[265px] sm:w-[420px] shrink-0 flex-col justify-between overflow-hidden rounded-[28px] sm:rounded-[36px] border border-[#D7E2EA]/20 bg-[#121212] shadow-[0_10px_30px_rgba(0,0,0,0.85)] transition-all duration-300 hover:border-[#7621b0]/45 hover:bg-[#181818]"
+      >
+        <div
+          className="absolute left-0 top-0 h-full w-[4px] rounded-l-[28px] sm:rounded-l-[36px] opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+          style={{ backgroundColor: card.accent }}
+        />
+
+        <div className="flex h-full flex-col justify-between pl-6 pr-6 sm:pl-8 sm:pr-8 pt-6 sm:pt-8 pb-6 sm:pb-8">
+          <div className="flex items-start justify-between gap-3 border-b border-[#D7E2EA]/15 pb-3.5">
+            <div className="flex flex-col gap-1">
+              <span className="font-black text-2xl sm:text-3xl leading-none tracking-tight" style={{ color: card.accent }}>
+                {card.number}
+              </span>
+              <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-[#D7E2EA]/55">
+                {card.category}
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-4 flex flex-col gap-2">
+            <h4 className="text-base sm:text-lg font-bold uppercase tracking-wide text-[#D7E2EA] group-hover:text-white transition-colors">
+              {card.title}
+            </h4>
+            <div className="relative overflow-hidden">
+              <div
+                className="flex gap-3 w-max"
+                style={{
+                  animation: "techIconsScroll 18s linear infinite",
+                }}
+              >
+                {[...icons, ...icons].map((icon, i) => (
+                  <img
+                    key={i}
+                    src={icon.src}
+                    alt={icon.alt}
+                    title={icon.alt}
+                    className="h-7 w-7 sm:h-8 sm:w-8 shrink-0 object-contain opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </motion.div>
     );
@@ -518,10 +651,19 @@ function ResumeHighlightCard({ card }: { card: ResumeHighlight }) {
           </div>
 
           <div className="mt-4">
-            <div className="flex items-baseline justify-between gap-2">
-              <h4 className="text-xl sm:text-2xl font-bold uppercase tracking-wide text-[#D7E2EA] group-hover:text-white transition-colors">
-                {card.title}
-              </h4>
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 min-w-0">
+                {card.logo && (
+                  <img
+                    src={card.logo}
+                    alt={`${card.title} logo`}
+                    className="h-6 w-6 sm:h-7 sm:w-7 shrink-0 object-contain rounded-md"
+                  />
+                )}
+                <h4 className="text-xl sm:text-2xl font-bold uppercase tracking-wide text-[#D7E2EA] group-hover:text-white transition-colors truncate">
+                  {card.title}
+                </h4>
+              </div>
               <span className="text-xs sm:text-sm font-medium text-[#D7E2EA]/45 truncate max-w-[110px] sm:max-w-[150px]">
                 {card.tagline}
               </span>
@@ -583,6 +725,59 @@ function AboutSection() {
   );
 }
 
+type TextSegment =
+  | { type: "text"; content: string }
+  | { type: "link"; label: string; href: string };
+
+function parseTextSegments(text: string): TextSegment[] {
+  const segments: TextSegment[] = [];
+  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  while ((match = linkRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      segments.push({ type: "text", content: text.slice(lastIndex, match.index) });
+    }
+    segments.push({ type: "link", label: match[1], href: match[2] });
+    lastIndex = match.index + match[0].length;
+  }
+  if (lastIndex < text.length) {
+    segments.push({ type: "text", content: text.slice(lastIndex) });
+  }
+  return segments;
+}
+
+function AnimatedChars({
+  chars,
+  globalOffset,
+  totalChars,
+  progress,
+}: {
+  chars: string[];
+  globalOffset: number;
+  totalChars: number;
+  progress: number;
+}) {
+  return (
+    <>
+      {chars.map((character, i) => {
+        const index = globalOffset + i;
+        const threshold = totalChars > 1 ? index / (totalChars - 1) : 1;
+        const distance = Math.abs(progress - threshold);
+        const opacity = Math.max(0.2, Math.min(1, 1 - distance / 0.08));
+        return (
+          <span key={index} className="relative inline-block">
+            <span className="invisible">{character === " " ? "\u00A0" : character}</span>
+            <span className="absolute inset-0" style={{ opacity }}>
+              {character === " " ? "\u00A0" : character}
+            </span>
+          </span>
+        );
+      })}
+    </>
+  );
+}
+
 function AnimatedText({ text }: { text: string }) {
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   const { scrollYProgress } = useScroll({ target: paragraphRef, offset: ["start 0.8", "end 0.2"] });
@@ -592,7 +787,13 @@ function AnimatedText({ text }: { text: string }) {
     setProgress(latest);
   });
 
-  const characters = useMemo(() => Array.from(text), [text]);
+  const segments = useMemo(() => parseTextSegments(text), [text]);
+  const totalChars = useMemo(
+    () => segments.reduce((acc, s) => acc + (s.type === "text" ? s.content.length : s.label.length), 0),
+    [segments]
+  );
+
+  let charOffset = 0;
 
   return (
     <p
@@ -600,19 +801,42 @@ function AnimatedText({ text }: { text: string }) {
       className="max-w-[560px] text-center text-[clamp(1rem,2vw,1.35rem)] font-medium leading-relaxed text-[#D7E2EA]"
       aria-label={text}
     >
-      {characters.map((character, index) => {
-        const threshold = characters.length > 1 ? index / (characters.length - 1) : 1;
-        const distance = Math.abs(progress - threshold);
-        const opacity = Math.max(0.2, Math.min(1, 1 - distance / 0.08));
-
-        return (
-          <span key={`${character}-${index}`} className="relative inline-block">
-            <span className="invisible">{character === " " ? "\u00A0" : character}</span>
-            <span className="absolute inset-0" style={{ opacity }}>
-              {character === " " ? "\u00A0" : character}
-            </span>
-          </span>
-        );
+      {segments.map((segment, si) => {
+        if (segment.type === "text") {
+          const chars = Array.from(segment.content);
+          const offset = charOffset;
+          charOffset += chars.length;
+          return (
+            <AnimatedChars
+              key={si}
+              chars={chars}
+              globalOffset={offset}
+              totalChars={totalChars}
+              progress={progress}
+            />
+          );
+        } else {
+          const chars = Array.from(segment.label);
+          const offset = charOffset;
+          charOffset += chars.length;
+          return (
+            <a
+              key={si}
+              href={segment.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative inline font-bold text-[#7DD3FC] underline underline-offset-2 hover:text-white transition-colors"
+              aria-label={segment.label}
+            >
+              <AnimatedChars
+                chars={chars}
+                globalOffset={offset}
+                totalChars={totalChars}
+                progress={progress}
+              />
+            </a>
+          );
+        }
       })}
     </p>
   );
