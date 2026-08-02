@@ -8,28 +8,122 @@ const heroBackground =
 
 const portraitImage = "/aayush_animated.png";
 
-const marqueeImages = [
-  "https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif",
-  "https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif",
-  "https://motionsites.ai/assets/hero-vex-ventures-preview-BczMFIiw.gif",
-  "https://motionsites.ai/assets/hero-stellar-ai-v2-preview-DjvxjG3C.gif",
-  "https://motionsites.ai/assets/hero-asme-preview-B_nGDnTP.gif",
-  "https://motionsites.ai/assets/hero-transform-data-preview-Cx5OU29N.gif",
-  "https://motionsites.ai/assets/hero-vitara-preview-Cjz2QYyU.gif",
-  "https://motionsites.ai/assets/hero-terra-preview-BFjrCr7T.gif",
-  "https://motionsites.ai/assets/hero-skyelite-preview-DHaZIgUv.gif",
-  "https://motionsites.ai/assets/hero-aethera-preview-DknSlcTa.gif",
-  "https://motionsites.ai/assets/hero-designpro-preview-D8c5_een.gif",
-  "https://motionsites.ai/assets/hero-stellar-ai-preview-D3HL6bw1.gif",
-  "https://motionsites.ai/assets/hero-xportfolio-preview-D4A8maiC.gif",
-  "https://motionsites.ai/assets/hero-orbit-web3-preview-BXt4OttD.gif",
-  "https://motionsites.ai/assets/hero-nexora-preview-cx5HmUgo.gif",
-  "https://motionsites.ai/assets/hero-evr-ventures-preview-DZxeVFEX.gif",
-  "https://motionsites.ai/assets/hero-planet-orbit-preview-DWAP8Z1P.gif",
-  "https://motionsites.ai/assets/hero-new-era-preview-CocuDUm9.gif",
-  "https://motionsites.ai/assets/hero-wealth-preview-B70idl_u.gif",
-  "https://motionsites.ai/assets/hero-luminex-preview-CxOP7ce6.gif",
-  "https://motionsites.ai/assets/hero-celestia-preview-0yO3jXO8.gif",
+type ResumeHighlight = {
+  id: string;
+  number: string;
+  category: string;
+  title: string;
+  tagline: string;
+  description: string;
+  tags: string[];
+  accent: string;
+  variant?: "default" | "stats" | "quote";
+  stats?: { value: string; label: string }[];
+  quote?: string;
+  link?: string;
+};
+
+const resumeCards: ResumeHighlight[] = [
+  {
+    id: "brancovenn",
+    number: "01",
+    category: "FOUNDER & EXPERIMENTAL PLATFORM",
+    title: "BrancoVenn",
+    tagline: "brancovenn.com",
+    description: "Built an independent platform for experimenting with software ideas and rapid product development.",
+    tags: ["Product Innovation", "Full-Stack", "Web Engine"],
+    accent: "#b600a8",
+    link: "https://brancovenn.com",
+  },
+  {
+    id: "open-source",
+    number: "02",
+    category: "OPEN SOURCE CONTRIBUTIONS",
+    title: "Open Source Contributor",
+    tagline: "GitHub Ecosystem",
+    description: "Submitted PRs, bug fixes, and feature enhancements for MetaMask, Rocket.Chat, Zulip, SigNoz, and Appwrite.",
+    tags: ["MetaMask", "Zulip", "Rocket.Chat", "Appwrite", "SigNoz"],
+    accent: "#D7E2EA",
+    link: "https://github.com/AayushKrGupta",
+  },
+  {
+    id: "sim-gamepad-startup",
+    number: "03",
+    category: "ONGOING STARTUP",
+    title: "Sim Gamepad System",
+    tagline: "Low-Latency Sockets",
+    description: "Implemented a virtual gamepad system using TCP/UDP socket programming to transmit mobile inputs as controller signals.",
+    tags: ["TCP/UDP Sockets", "Low Latency", "Mobile Controller"],
+    accent: "#be4c00",
+  },
+  {
+    id: "visually-impaired-ai",
+    number: "04",
+    category: "AI & ACCESSIBILITY",
+    title: "Intelligent Perception",
+    tagline: "Visually Impaired AI Assistant",
+    description: "AI-powered assistant providing real-time environmental understanding via multimodal perception, NLP speech, and integrated APIs.",
+    tags: ["Multimodal AI", "NLP Speech", "Location APIs"],
+    accent: "#7621b0",
+  },
+  {
+    id: "smart-water",
+    number: "05",
+    category: "IOT & TELEMETRY",
+    title: "Smart Water System",
+    tagline: "Sensor Integration Dashboard",
+    description: "Analyzed water usage and tank levels using REST API-based sensor integrations and a real-time monitoring dashboard.",
+    tags: ["REST APIs", "IoT Sensors", "Real-Time Dashboard"],
+    accent: "#fd2601",
+  },
+  {
+    id: "academic-background",
+    number: "06",
+    category: "EDUCATION & ACADEMICS",
+    title: "IIIT Dharwad (ECE)",
+    tagline: "CGPA: 7.87 / 10",
+    description: "B.Tech in Electronics and Communication Engineering with deep coursework in DSA, OS, DBMS, Computer Networks, and AI.",
+    tags: ["DSA", "Operating Systems", "Computer Networks"],
+    accent: "#b600a8",
+  },
+  {
+    id: "tech-stack-infrastructure",
+    number: "07",
+    category: "DEV TOOLS & ARCHITECTURE",
+    title: "Systems & Infrastructure",
+    tagline: "Tooling & Containerization",
+    description: "Proficient with Docker containerization, Kubernetes, Linux administration, MATLAB signal modeling, Wireshark, and Android Studio.",
+    tags: ["Docker", "Kubernetes", "Linux", "FastAPI"],
+    accent: "#be4c00",
+  },
+  {
+    id: "statistics",
+    number: "08",
+    category: "BY THE NUMBERS",
+    title: "Statistics",
+    tagline: "",
+    description: "",
+    tags: [],
+    accent: "#D7E2EA",
+    variant: "stats",
+    stats: [
+      { value: "10+", label: "Projects" },
+      { value: "5+", label: "Technologies" },
+      { value: "100k+", label: "Lines of Code" },
+    ],
+  },
+  {
+    id: "philosophy",
+    number: "09",
+    category: "PHILOSOPHY",
+    title: "",
+    tagline: "",
+    description: "",
+    tags: [],
+    accent: "#b600a8",
+    variant: "quote",
+    quote: "Building in public.\nLearning continuously.\nShipping relentlessly.",
+  },
 ];
 
 const aboutDecor = [
@@ -96,38 +190,64 @@ type ProjectCard = {
   number: string;
   category: string;
   name: string;
+  githubUrl: string;
   images: [string, string, string];
 };
 
 const projects: ProjectCard[] = [
   {
     number: "01",
-    category: "Mobile / Telemetry",
-    name: "Sim Gamepad",
+    category: "AI / Mobile",
+    name: "LeafLens AI",
+    githubUrl: "https://github.com/AayushKrGupta/LeafLens-api",
     images: [
-      "/aayush_animated.png",
-      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055431_11d841fd-8b41-46a5-82e4-b04f2407a7d8.png&w=1280&q=85",
-      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055451_e317bf2d-28d4-48cc-86b0-6f72f25b6327.png&w=1280&q=85",
+      "https://raw.githubusercontent.com/AayushKrGupta/LeafLens-api/main/LeafLens/assets/screenshots/home.jpeg",
+      "https://raw.githubusercontent.com/AayushKrGupta/LeafLens-api/main/LeafLens/assets/screenshots/scanner.jpeg",
+      "https://raw.githubusercontent.com/AayushKrGupta/LeafLens-api/main/LeafLens/assets/screenshots/history.jpeg",
     ],
   },
   {
     number: "02",
-    category: "Productivity / Android",
-    name: "MindScribe",
+    category: "Productivity / Health",
+    name: "MetricMe",
+    githubUrl: "https://github.com/AayushKrGupta/MetricMe",
     images: [
-      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055654_911201c5-36d9-4bc6-bac7-331adfce159f.png&w=1280&q=85",
-      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055723_5ceda0b8-d9c2-4665-b2e3-83ba19ba76d1.png&w=1280&q=85",
-      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85",
+      "https://raw.githubusercontent.com/AayushKrGupta/MetricMe/main/assets/images/1.jpg",
+      "https://raw.githubusercontent.com/AayushKrGupta/MetricMe/main/assets/images/2.jpg",
+      "https://raw.githubusercontent.com/AayushKrGupta/MetricMe/main/assets/images/3.jpg",
     ],
   },
   {
     number: "03",
+    category: "Productivity / Android",
+    name: "MindScribe",
+    githubUrl: "https://github.com/AayushKrGupta/MindScribe",
+    images: [
+      "https://raw.githubusercontent.com/AayushKrGupta/MindScribe/main/screenshots/HomeScreen.png",
+      "https://raw.githubusercontent.com/AayushKrGupta/MindScribe/main/screenshots/NoteScreen.png",
+      "https://raw.githubusercontent.com/AayushKrGupta/MindScribe/main/screenshots/Sidebar.png",
+    ],
+  },
+  {
+    number: "04",
     category: "AI / Vision",
     name: "AlzVision AI",
+    githubUrl: "https://github.com/AayushKrGupta/AlzVision-AI",
     images: [
-      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85",
-      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85",
-      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85",
+      "https://raw.githubusercontent.com/AayushKrGupta/AlzVision-AI/main/assets/1.jpg",
+      "https://raw.githubusercontent.com/AayushKrGupta/AlzVision-AI/main/assets/2.jpg",
+      "https://raw.githubusercontent.com/AayushKrGupta/AlzVision-AI/main/assets/3.jpg",
+    ],
+  },
+  {
+    number: "05",
+    category: "5G Edge / Alerts",
+    name: "Pulse5G",
+    githubUrl: "https://github.com/AayushKrGupta/Pulse5G",
+    images: [
+      "https://raw.githubusercontent.com/AayushKrGupta/MetricMe/main/assets/images/4.jpg",
+      "https://raw.githubusercontent.com/AayushKrGupta/MetricMe/main/assets/images/5.jpg",
+      "https://raw.githubusercontent.com/AayushKrGupta/MetricMe/main/assets/images/6.jpg",
     ],
   },
 ];
@@ -225,7 +345,7 @@ function MarqueeSection() {
     const update = () => {
       const sectionTop = sectionRef.current?.getBoundingClientRect().top ?? 0;
       const scrollY = window.scrollY ?? window.pageYOffset;
-      const value = (scrollY - sectionTop + window.innerHeight) * 0.3;
+      const value = (scrollY - sectionTop + window.innerHeight) * 0.25;
       setOffset(value);
     };
 
@@ -242,44 +362,189 @@ function MarqueeSection() {
     };
   }, []);
 
-  const firstRow = marqueeImages.slice(0, 11);
-  const secondRow = marqueeImages.slice(11);
+  const firstRow = resumeCards.slice(0, 5);
+  const secondRow = resumeCards.slice(4);
 
   return (
-    <section ref={sectionRef} className="bg-[#0C0C0C] pt-24 pb-10 sm:pt-32 md:pt-40">
-      <div className="flex flex-col gap-3">
-        <MarqueeRow images={firstRow} offset={offset} direction="right" />
-        <MarqueeRow images={secondRow} offset={offset} direction="left" />
+    <section ref={sectionRef} className="relative z-10 bg-[#0C0C0C] pt-20 pb-16 sm:pt-28 sm:pb-20 md:pt-36">
+      <FadeIn delay={0} y={30} className="mb-10 sm:mb-14 text-center px-4">
+        <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#D7E2EA]/50">
+          Highlights & Engineering Initiatives
+        </span>
+        <h3 className="hero-heading mt-2 font-black uppercase tracking-tight text-[clamp(2rem,6vw,4rem)]">
+          Beyond The Code
+        </h3>
+      </FadeIn>
+
+      <div className="flex flex-col gap-5 sm:gap-7">
+        <MarqueeCardRow cards={firstRow} offset={offset} direction="right" />
+        <MarqueeCardRow cards={secondRow} offset={offset} direction="left" />
       </div>
     </section>
   );
 }
 
-function MarqueeRow({
-  images,
+function MarqueeCardRow({
+  cards,
   offset,
   direction,
 }: {
-  images: string[];
+  cards: ResumeHighlight[];
   offset: number;
   direction: "right" | "left";
 }) {
-  const transform = direction === "right" ? `translate3d(${offset - 200}px,0,0)` : `translate3d(${-(offset - 200)}px,0,0)`;
+  const transform =
+    direction === "right" ? `translate3d(${offset - 200}px,0,0)` : `translate3d(${-(offset - 200)}px,0,0)`;
 
   return (
-    <div className="overflow-hidden">
-      <div className="flex w-max gap-3" style={{ transform, willChange: "transform" } as CSSProperties}>
-        {[...images, ...images, ...images].map((src, index) => (
-          <img
-            key={`${src}-${index}`}
-            src={src}
-            alt=""
-            loading="lazy"
-            className="h-[270px] w-[420px] shrink-0 rounded-2xl object-cover"
-          />
+    <div className="overflow-hidden py-3">
+      <div className="flex w-max gap-5 sm:gap-7" style={{ transform, willChange: "transform" } as CSSProperties}>
+        {[...cards, ...cards, ...cards].map((card, index) => (
+          <ResumeHighlightCard key={`${card.id}-${index}`} card={card} />
         ))}
       </div>
     </div>
+  );
+}
+
+function ResumeHighlightCard({ card }: { card: ResumeHighlight }) {
+  const CardContainer = card.link ? motion.a : motion.div;
+  const containerProps = card.link
+    ? { href: card.link, target: "_blank", rel: "noopener noreferrer" }
+    : {};
+
+  const variant = card.variant ?? "default";
+
+  // Stats card variant
+  if (variant === "stats" && card.stats) {
+    return (
+      <motion.div
+        whileHover={{ y: -4, scale: 1.015 }}
+        transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+        className="group relative flex h-[240px] w-[350px] sm:h-[265px] sm:w-[420px] shrink-0 flex-col justify-between overflow-hidden rounded-[28px] sm:rounded-[36px] border border-[#D7E2EA]/20 bg-[#121212] shadow-[0_10px_30px_rgba(0,0,0,0.85)] transition-all duration-300 hover:border-[#D7E2EA]/45 hover:bg-[#181818]"
+      >
+        <div
+          className="absolute left-0 top-0 h-full w-[4px] rounded-l-[28px] sm:rounded-l-[36px] opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+          style={{ backgroundColor: card.accent }}
+        />
+
+        <div className="flex h-full flex-col justify-between pl-6 pr-6 sm:pl-8 sm:pr-8 pt-6 sm:pt-8 pb-6 sm:pb-8">
+          <div className="flex items-start justify-between gap-3 border-b border-[#D7E2EA]/15 pb-3.5">
+            <div className="flex flex-col gap-1">
+              <span className="font-black text-2xl sm:text-3xl leading-none tracking-tight" style={{ color: card.accent }}>
+                {card.number}
+              </span>
+              <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-[#D7E2EA]/55">
+                {card.category}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4 mt-4">
+            {card.stats.map((stat) => (
+              <div key={stat.label} className="flex items-baseline gap-3">
+                <span className="font-black text-2xl sm:text-3xl text-[#D7E2EA] group-hover:text-white transition-colors">
+                  {stat.value}
+                </span>
+                <span className="text-sm sm:text-base font-medium uppercase tracking-wider text-[#D7E2EA]/55">
+                  {stat.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  // Quote card variant
+  if (variant === "quote" && card.quote) {
+    return (
+      <motion.div
+        whileHover={{ y: -4, scale: 1.015 }}
+        transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+        className="group relative flex h-[240px] w-[350px] sm:h-[265px] sm:w-[420px] shrink-0 items-center justify-center overflow-hidden rounded-[28px] sm:rounded-[36px] border border-[#D7E2EA]/20 bg-[#121212] shadow-[0_10px_30px_rgba(0,0,0,0.85)] transition-all duration-300 hover:border-[#D7E2EA]/45 hover:bg-[#181818]"
+      >
+        <div
+          className="absolute left-0 top-0 h-full w-[4px] rounded-l-[28px] sm:rounded-l-[36px] opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+          style={{ backgroundColor: card.accent }}
+        />
+
+        <div className="px-8 sm:px-10 text-center">
+          {card.quote.split("\n").map((line, i) => (
+            <p
+              key={i}
+              className="text-xl sm:text-2xl font-bold uppercase tracking-wide leading-relaxed text-[#D7E2EA] group-hover:text-white transition-colors"
+            >
+              {line}
+            </p>
+          ))}
+        </div>
+      </motion.div>
+    );
+  }
+
+  // Default card
+  return (
+    <CardContainer
+      {...containerProps}
+      whileHover={{ y: -4, scale: 1.015 }}
+      transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+      className="group relative flex h-[240px] w-[350px] sm:h-[265px] sm:w-[420px] shrink-0 flex-col justify-between overflow-hidden rounded-[28px] sm:rounded-[36px] border border-[#D7E2EA]/20 bg-[#121212] shadow-[0_10px_30px_rgba(0,0,0,0.85)] transition-all duration-300 hover:border-[#D7E2EA]/45 hover:bg-[#181818]"
+    >
+      <div
+        className="absolute left-0 top-0 h-full w-[4px] rounded-l-[28px] sm:rounded-l-[36px] transition-opacity duration-300 group-hover:opacity-100 opacity-80"
+        style={{ backgroundColor: card.accent }}
+      />
+
+      <div className="flex h-full flex-col justify-between pl-6 pr-6 sm:pl-8 sm:pr-8 pt-6 sm:pt-8 pb-6 sm:pb-8">
+        <div>
+          <div className="flex items-start justify-between gap-3 border-b border-[#D7E2EA]/15 pb-3.5">
+            <div className="flex flex-col gap-1">
+              <span
+                className="font-black text-2xl sm:text-3xl leading-none tracking-tight"
+                style={{ color: card.accent }}
+              >
+                {card.number}
+              </span>
+              <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-[#D7E2EA]/55">
+                {card.category}
+              </span>
+            </div>
+
+            {card.link && (
+              <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-[#D7E2EA]/40 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#D7E2EA]" />
+            )}
+          </div>
+
+          <div className="mt-4">
+            <div className="flex items-baseline justify-between gap-2">
+              <h4 className="text-xl sm:text-2xl font-bold uppercase tracking-wide text-[#D7E2EA] group-hover:text-white transition-colors">
+                {card.title}
+              </h4>
+              <span className="text-xs sm:text-sm font-medium text-[#D7E2EA]/45 truncate max-w-[110px] sm:max-w-[150px]">
+                {card.tagline}
+              </span>
+            </div>
+
+            <p className="mt-2 line-clamp-2 text-xs sm:text-sm font-light leading-relaxed text-[#D7E2EA]/70">
+              {card.description}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {card.tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full border border-[#D7E2EA]/20 bg-[#1c1c1c] px-3 py-1 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-[#D7E2EA]/75 transition-colors duration-300 group-hover:border-[#D7E2EA]/45 group-hover:bg-[#222] group-hover:text-white"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </CardContainer>
   );
 }
 
@@ -393,7 +658,7 @@ function ProjectsSection() {
     >
       <FadeIn delay={0} y={40}>
         <h2 className="hero-heading mb-16 text-center font-black uppercase leading-none tracking-tight text-[clamp(3rem,12vw,160px)] sm:mb-20 md:mb-28">
-          Project
+          Projects
         </h2>
       </FadeIn>
 
@@ -460,31 +725,31 @@ function ProjectFolderCard({
             </div>
           </div>
 
-          <LiveProjectButton href="#">Live Project</LiveProjectButton>
+          <LiveProjectButton href={project.githubUrl}>View Repository</LiveProjectButton>
         </div>
 
         <div className="mt-6 grid gap-4 lg:grid-cols-[40%_60%]">
           <div className="grid gap-4">
             <img
               src={project.images[0]}
-              alt=""
+              alt={`${project.name} preview 1`}
               loading="lazy"
-              className="h-[clamp(140px,17vw,240px)] w-full rounded-[24px] sm:rounded-[36px] md:rounded-[44px] object-cover"
+              className="h-[clamp(150px,18vw,260px)] w-full rounded-[24px] sm:rounded-[36px] md:rounded-[44px] object-cover object-top bg-[#141414]"
             />
             <img
               src={project.images[1]}
-              alt=""
+              alt={`${project.name} preview 2`}
               loading="lazy"
-              className="h-[clamp(170px,23vw,350px)] w-full rounded-[24px] sm:rounded-[36px] md:rounded-[44px] object-cover"
+              className="h-[clamp(180px,22vw,320px)] w-full rounded-[24px] sm:rounded-[36px] md:rounded-[44px] object-cover object-top bg-[#141414]"
             />
           </div>
 
           <div className="min-h-full">
             <img
               src={project.images[2]}
-              alt=""
+              alt={`${project.name} preview 3`}
               loading="lazy"
-              className="h-full min-h-[clamp(330px,44vw,600px)] w-full rounded-[24px] sm:rounded-[36px] md:rounded-[44px] object-cover"
+              className="h-full min-h-[clamp(330px,44vw,600px)] w-full rounded-[24px] sm:rounded-[36px] md:rounded-[44px] object-cover object-top bg-[#141414]"
             />
           </div>
         </div>
@@ -595,8 +860,14 @@ function ContactButton({ href, children }: { href: string; children: ReactNode }
 
 function LiveProjectButton({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <a href={href} className="live-project-button inline-flex items-center justify-center text-sm font-medium uppercase tracking-widest sm:text-base">
-      {children}
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="live-project-button inline-flex items-center justify-center gap-2 text-sm font-medium uppercase tracking-widest sm:text-base transition-transform hover:scale-[1.03]"
+    >
+      <span>{children}</span>
+      <ArrowUpRight className="h-4 w-4" />
     </a>
   );
 }
