@@ -245,9 +245,9 @@ const projects: ProjectCard[] = [
     name: "Pulse5G",
     githubUrl: "https://github.com/AayushKrGupta/Pulse5G",
     images: [
-      "https://raw.githubusercontent.com/AayushKrGupta/MetricMe/main/assets/images/4.jpg",
-      "https://raw.githubusercontent.com/AayushKrGupta/MetricMe/main/assets/images/5.jpg",
-      "https://raw.githubusercontent.com/AayushKrGupta/MetricMe/main/assets/images/6.jpg",
+      "https://raw.githubusercontent.com/AayushKrGupta/Pulse5G/main/assets/images/screenshot1.jpeg",
+      "https://raw.githubusercontent.com/AayushKrGupta/Pulse5G/main/assets/images/screenshot2.jpeg",
+      "https://raw.githubusercontent.com/AayushKrGupta/Pulse5G/main/assets/images/screenshot3.jpeg",
     ],
   },
 ];
