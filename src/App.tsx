@@ -257,7 +257,7 @@ const aboutText =
 
 function App() {
   useEffect(() => {
-    document.title = "Aayush Kumar — 3D Creator";
+    document.title = "Aayush Kumar — Portfolio";
   }, []);
 
   return (
