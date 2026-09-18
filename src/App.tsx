@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, PointerEvent as ReactPointerEvent, ReactNode } from "react";
 import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, Download, Github, Instagram, Linkedin, Mail, Twitter } from "lucide-react";
+import { ArrowUpRight, Briefcase, Download, Github, Instagram, Linkedin, Mail, Twitter } from "lucide-react";
 
 const heroBackground =
   "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260729_022513_486985a2-ac8c-4278-91a8-071dcd9fcaff.png&w=1280&q=85";
@@ -1249,18 +1249,47 @@ function ContactSection() {
         </FadeIn>
 
         <FadeIn delay={0.15} y={30}>
-          <div className="mb-14 flex justify-center">
+          <div className="mb-14 flex flex-col items-center justify-center gap-4 sm:gap-6 md:flex-row">
+            {/* Business Enquiry */}
+            <a
+              href="mailto:aayush@brancovenn.com"
+              className="group relative flex w-full max-w-md items-center justify-between gap-4 rounded-full border-2 border-[#D7E2EA]/20 bg-[#111114] px-6 py-4 transition-all duration-300 hover:border-[#b600a8] hover:bg-[#191122] hover:shadow-[0_0_25px_rgba(182,0,168,0.25)] hover:scale-[1.02] sm:px-8 sm:py-5"
+            >
+              <div className="flex items-center gap-3.5 sm:gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/5 transition-all duration-300 group-hover:bg-[#b600a8]/20 group-hover:scale-110 sm:h-11 sm:w-11">
+                  <Briefcase className="h-5 w-5 text-[#D7E2EA] transition-colors group-hover:text-[#f395f0]" />
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#D7E2EA]/60 transition-colors group-hover:text-[#D7E2EA]">
+                    Business Enquiry
+                  </span>
+                  <span className="text-sm font-semibold tracking-wide text-[#D7E2EA] sm:text-base md:text-lg">
+                    aayush@brancovenn.com
+                  </span>
+                </div>
+              </div>
+              <ArrowUpRight className="h-5 w-5 shrink-0 text-[#D7E2EA]/50 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-white" />
+            </a>
+
+            {/* Personal Email */}
             <a
               href="mailto:aayushkr.dev@gmail.com"
-              className="group relative flex flex-col items-center gap-4 rounded-full border-2 border-[#D7E2EA]/30 bg-[#0C0C0C] px-8 py-4 sm:flex-row sm:px-12 sm:py-6 transition-all duration-300 hover:border-[#D7E2EA] hover:bg-[#D7E2EA]/10 hover:scale-[1.02]"
+              className="group relative flex w-full max-w-md items-center justify-between gap-4 rounded-full border-2 border-[#D7E2EA]/20 bg-[#111114] px-6 py-4 transition-all duration-300 hover:border-[#be4c00] hover:bg-[#201511] hover:shadow-[0_0_25px_rgba(190,76,0,0.25)] hover:scale-[1.02] sm:px-8 sm:py-5"
             >
-              <div className="flex items-center gap-3">
-                <Mail className="h-6 w-6 text-[#D7E2EA] transition-transform duration-300 group-hover:scale-110" />
-                <span className="text-lg font-semibold tracking-wide text-[#D7E2EA] sm:text-2xl">
-                  aayushkr.dev@gmail.com
-                </span>
+              <div className="flex items-center gap-3.5 sm:gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/5 transition-all duration-300 group-hover:bg-[#be4c00]/20 group-hover:scale-110 sm:h-11 sm:w-11">
+                  <Mail className="h-5 w-5 text-[#D7E2EA] transition-colors group-hover:text-[#ff9d5c]" />
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#D7E2EA]/60 transition-colors group-hover:text-[#D7E2EA]">
+                    Personal Email
+                  </span>
+                  <span className="text-sm font-semibold tracking-wide text-[#D7E2EA] sm:text-base md:text-lg">
+                    aayushkr.dev@gmail.com
+                  </span>
+                </div>
               </div>
-              <ArrowUpRight className="h-5 w-5 text-[#D7E2EA]/60 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[#D7E2EA]" />
+              <ArrowUpRight className="h-5 w-5 shrink-0 text-[#D7E2EA]/50 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-white" />
             </a>
           </div>
         </FadeIn>
