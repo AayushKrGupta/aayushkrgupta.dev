@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, PointerEvent as ReactPointerEvent, ReactNode } from "react";
 import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, Github, Instagram, Linkedin, Mail, Twitter } from "lucide-react";
+import { ArrowUpRight, Download, Github, Instagram, Linkedin, Mail, Twitter } from "lucide-react";
 
 const heroBackground =
   "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260729_022513_486985a2-ac8c-4278-91a8-071dcd9fcaff.png&w=1280&q=85";
@@ -717,7 +717,10 @@ function AboutSection() {
           <AnimatedText text={aboutText} />
 
           <FadeIn delay={0.35} y={20}>
-            <ContactButton href="#contact">Contact Me</ContactButton>
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+              <ContactButton href="#contact">Contact Me</ContactButton>
+              <ResumeButton href="/Aayush_Kumar_Resume.pdf">My Resume</ResumeButton>
+            </div>
           </FadeIn>
         </div>
       </div>
@@ -1078,6 +1081,33 @@ function ContactButton({ href, children }: { href: string; children: ReactNode }
   return (
     <a href={href} className="contact-button inline-flex items-center justify-center text-xs font-medium uppercase tracking-widest sm:text-sm md:text-base">
       {children}
+    </a>
+  );
+}
+
+function ResumeButton({
+  href,
+  download = "Aayush_Kumar_Resume.pdf",
+  children,
+}: {
+  href: string;
+  download?: string;
+  children: ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      download={download}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="resume-button group inline-flex items-center justify-center gap-3 text-xs font-medium uppercase tracking-widest sm:text-sm md:text-base cursor-pointer select-none"
+    >
+      <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+        {children}
+      </span>
+      <span className="relative z-10 flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white/10 backdrop-blur-md transition-all duration-300 group-hover:bg-[#b600a8] group-hover:shadow-[0_0_12px_rgba(182,0,168,0.7)] group-hover:scale-105">
+        <Download className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#D7E2EA] transition-all duration-300 group-hover:text-white group-hover:translate-y-0.5" />
+      </span>
     </a>
   );
 }
